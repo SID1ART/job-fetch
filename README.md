@@ -1,74 +1,73 @@
-# JobFetch - Real-Time AI Job Matching Agent
+# React + TypeScript + Vite
 
-JobFetch is a premium, real-time AI-powered job search discovery and matching agent. It takes your raw CV, parses it into structured candidate profiles using state-of-the-art LLMs, crawls public Applicant Tracking Systems (ATS) and job search portals in real-time, and streams evaluated matches ranked by relevancy.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
----
+Currently, two official plugins are available:
 
-## 🚀 Key Features
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-* **Structured CV Parser**: Extract expert/proficient skills, years of experience, target roles, locations, and visa preferences from `.txt`, `.md`, or `.json` resumes.
-* **Public ATS Discovery (No API Keys Required)**: Searches and fetches public career feeds of top companies across **Greenhouse**, **Lever**, and **Workable** boards automatically.
-* **LinkedIn Guest Scraping**: Dynamically queries the public LinkedIn guest job crawler endpoint without needing user authentication or account logins.
-* **Multi-Provider Account Connections**: Support for major LLM providers (**Google Gemini**, **OpenAI**, **Anthropic**, **Groq**) and Search APIs (**Serper**, **Brave**, **Tavily**) stored safely in browser localStorage.
-* **NDJSON Streaming**: Delivers progress logs and scored job results in real time over chunked HTTP transfer streams, updating candidate match scoreboards instantly.
-* **Modern Interface**: Dual light and high-contrast dark theme, custom typography, smooth micro-animations, and visual score indicators.
+## React Compiler
 
----
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## 📸 Interface Preview
+## Expanding the ESLint configuration
 
-### 1. Resume Setup & Parsing (Light Mode)
-Upload your CV or paste raw resume text. The parsing agent extracts skills and experience domains automatically.
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-![JobFetch CV Parsing & Profile Setup](assets/homepage.png)
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
----
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-### 2. Search Constraints & Pipeline Controls (Dark Mode)
-Define target locations, type constraints, exclusions, and input custom comma-separated target companies.
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-![JobFetch Dark Mode Search Pipeline](assets/search_pipeline.png)
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
----
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-### 3. Connections & Credentials Panel
-Securely verify and configure LLM and Search providers for parsing and matching.
-
-![JobFetch Connections Configuration](assets/connections_panel.png)
-
----
-
-## 🎨 Verification & Images Workflow
-
-We maintain a strict visual verification workflow inside this repository:
-1. **Automated Auditing**: During changes to UI colors, components, or layout constraints, a browser subagent acts as an end-to-end auditor.
-2. **Visual Snapshots**: The subagent navigates tabs, toggles themes, and captures high-resolution screenshots.
-3. **Asset Compilation**: Screenshots are automatically saved to the `assets/` folder to ensure documentation in this `README.md` stays synchronized with the latest interface revisions.
-
----
-
-## 🛠️ Local Installation & Running
-
-### Prerequisites
-* [Node.js](https://nodejs.org) (v18+ recommended)
-* [npm](https://npmjs.com)
-
-### Steps
-1. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-2. **Run both servers simultaneously (Express Backend + Vite Frontend)**:
-   ```bash
-   npm run dev:all
-   ```
-
-3. **Access the application**:
-   * Open your browser to **[http://localhost:5173/](http://localhost:5173/)**
-   * The Express API listens on port `5000` (requests are proxied automatically).
-
-4. **Production Build**:
-   ```bash
-   npm run build
-   ```
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
